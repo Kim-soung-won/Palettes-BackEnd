@@ -20,6 +20,7 @@ public class JoinRequest { //유저 이탈을 막기위해 최소한의 정보�
     private String password;
     @NotBlank(message = "비밀번호 확인을 입력해 주세요.")
     private String checkPassword;
+
     @NotBlank(message = "닉네임을 입력해 주세요.")
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     private String nickName;

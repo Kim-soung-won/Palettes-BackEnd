@@ -94,16 +94,16 @@ public class FeedService {
             return null;
         }
     }
-        //피드삭제
-        public void deleteFeed(Long feedId, Long memberId) {
-            Feed feed = feedRepository.findById(feedId)
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 피드입니다."));
-            if(feed.getMemberId().getMemberId().equals(memberId)){ //피드를 적은 사람과 피드를 열어본 사람이 같은 사람인지 판별
-                feedRepository.delete(feed);
-            }else{
-                throw new IllegalArgumentException("피드 작성자가 아닌 사용자가 피드를 삭제하려고 합니다.");
-            }
-
+    //피드삭제
+    public void deleteFeed(Long feedId, Long memberId) {
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 피드입니다."));
+        if(feed.getMemberId().getMemberId().equals(memberId)){ //피드를 적은 사람과 피드를 열어본 사람이 같은 사람인지 판별
+            feedRepository.delete(feed);
+        }else{
+            throw new IllegalArgumentException("피드 작성자가 아닌 사용자가 피드를 삭제하려고 합니다.");
         }
+
+    }
 
 }
