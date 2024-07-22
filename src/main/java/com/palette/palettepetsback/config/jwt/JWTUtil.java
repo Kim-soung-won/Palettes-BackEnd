@@ -73,6 +73,7 @@ public class JWTUtil {
                 .compact();
     }
 
+    // 인증객체로 부터 회원 정보를 추출한다.
     public static AuthInfoDto getMemberInfo() {
 
         // principal 정보 가져오기

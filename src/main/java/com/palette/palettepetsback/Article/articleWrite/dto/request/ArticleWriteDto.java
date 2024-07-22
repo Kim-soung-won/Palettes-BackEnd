@@ -20,7 +20,7 @@ public class ArticleWriteDto {
     private List<String> articleTags;
     @Size(min =2)
     private String title;
-    @Size(min=10)
+    @Size(min=1)
     private String content;
     private Long createdWho;
 }
