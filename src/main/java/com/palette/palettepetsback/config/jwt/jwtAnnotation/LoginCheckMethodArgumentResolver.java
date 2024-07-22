@@ -26,7 +26,10 @@ public class LoginCheckMethodArgumentResolver implements HandlerMethodArgumentRe
 
     @Override
     // JWT에서 인증정보를 가져오고 이를 AuthInfoDto로 변환하여 반환한다.
-    public AuthInfoDto resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public AuthInfoDto resolveArgument(MethodParameter parameter,
+                                       ModelAndViewContainer mavContainer,
+                                       NativeWebRequest webRequest,
+                                       WebDataBinderFactory binderFactory) throws Exception {
         return JWTUtil.getMemberInfo();
     }
 }
