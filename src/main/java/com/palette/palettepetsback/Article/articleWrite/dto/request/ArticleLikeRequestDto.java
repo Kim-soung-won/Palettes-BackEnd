@@ -12,6 +12,4 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ArticleLikeRequestDto {
     private Long articleId;
-  
-
 }

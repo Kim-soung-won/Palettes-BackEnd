@@ -40,7 +40,7 @@ public class LikeController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
 
-        return ResponseEntity.ok(articleLikeService.likeArticle(dto.getArticleId(),authInfoDto.getMemberId()));
+        return ResponseEntity.ok().body(articleLikeService.likeArticle(dto.getArticleId(),authInfoDto.getMemberId()));
     }
 
     //좋아요 눌렀는지 안눌렀는지
