@@ -7,6 +7,5 @@ import java.util.Optional;
 
 public interface ImgArticleRepository extends JpaRepository<ArticleImage,Long> {
 
-//    Optional<ArticleImage> findByArticleId(Long articleId);
     Optional<ArticleImage> findByImgUrl(String imgUrl);
 }

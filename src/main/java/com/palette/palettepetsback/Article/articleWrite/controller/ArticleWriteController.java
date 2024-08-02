@@ -113,14 +113,6 @@ public class ArticleWriteController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-//        dto.setContent(
-//                dto.getContent()
-//                        .replaceAll(" ", "&nbsp;")
-//                        .replaceAll("<", "&lt;")
-//                        .replaceAll(">", "&gt;")
-//                        .replaceAll("\n", "<br>")
-//        );
-
         //글 정보 DB 등록 -> article table
         Article created = articleWriteService.create(dto);
 

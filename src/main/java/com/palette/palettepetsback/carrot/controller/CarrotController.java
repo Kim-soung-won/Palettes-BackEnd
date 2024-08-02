@@ -10,6 +10,7 @@ import com.palette.palettepetsback.carrot.dto.CarrotResponseDTO;
 import com.palette.palettepetsback.carrot.service.CarrotService;
 import com.palette.palettepetsback.config.jwt.AuthInfoDto;
 import com.palette.palettepetsback.config.jwt.jwtAnnotation.JwtAuth;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class CarrotController {
 
         //파일 업로드 및 이미지 저장
         System.out.println("dto = " + dto.getCarrotTitle());
-        return ResponseEntity.ok("글 등록 완료");
+        return ResponseEntity.ok().body("글 등록 완료");
     }
 
     //글 & 이미지 수정

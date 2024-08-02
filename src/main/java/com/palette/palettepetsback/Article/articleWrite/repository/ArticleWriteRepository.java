@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ArticleWriteRepository extends JpaRepository<Article,Long> {
-//    Page<Article> findAll(Pageable pageable);
 
     @Modifying
     @Query("UPDATE Article e SET e.state = 'DELETED', e.isDeleted = true  WHERE e.articleId = :id")

@@ -95,18 +95,6 @@ public class LikeController {
     }
 
 
-    @GetMapping("/like/{articleId}/getLike")
-    public ResponseEntity<Boolean> getLike(@PathVariable Long articleId,
-                                           @JwtAuth AuthInfoDto authInfoDto){
-//        Long memberId = authInfoDto.getMemberId();
-//        if(memberId == null){
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
-//        }
-//        return (!articleLikeService.isLike(articleId, memberId))?
-//
-        return null;
-    }
-
 
 }
 
