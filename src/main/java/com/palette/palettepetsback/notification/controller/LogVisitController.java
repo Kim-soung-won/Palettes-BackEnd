@@ -5,6 +5,7 @@ import com.palette.palettepetsback.member.repository.MemberRepository;
 import com.palette.palettepetsback.member.service.MemberService;
 import com.palette.palettepetsback.notification.domain.MemberIssue;
 import com.palette.palettepetsback.notification.repository.MemberIssueRepository;
+import com.palette.palettepetsback.notification.service.LogVisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +18,11 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class LogVisitController {
 
-    private final MemberRepository memberRepository;
-    private final MemberIssueRepository memberIssueRepository;
+    private final LogVisitService logVisitService;
 
     @GetMapping("/hello")
     public ResponseEntity<?> hello() {
-        Member member = memberRepository.findByMemberId(1L).orElseThrow(() -> new IllegalArgumentException("해당하는 회원이 없습니다."));
-        MemberIssue memberIssue = MemberIssue.builder()
-                .receiver(member)
-                .issueContent(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .issueCode(100)
-                .build();
-        memberIssueRepository.save(memberIssue);
+        logVisitService.logVisit();
         return ResponseEntity.ok().body("hello");
     }
 }
