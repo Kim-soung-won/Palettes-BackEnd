@@ -12,13 +12,8 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class CarrotRequestDTO {
-    private Long carrotId;
     private String carrotTitle;
     private String carrotContent;
     private Integer carrotPrice;
-    private String carrotImg;
-    private Member memberId;
     private String carrotTag;
-    private int carrotState;
-
 }

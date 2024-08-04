@@ -1,51 +1,95 @@
-//package com.palette.palettepetsback.carrot;
-//
-//import com.palette.palettepetsback.carrot.domain.Carrot;
-//import com.palette.palettepetsback.carrot.repository.CarrotImageRepository;
-//import com.palette.palettepetsback.carrot.repository.CarrotRepository;
-//import com.palette.palettepetsback.member.entity.Member;
-//import com.palette.palettepetsback.member.repository.MemberRepository;
-//import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@SpringBootTest
-//public class CarrotTest {
-//
-//    @Autowired
-//    private CarrotRepository carrotRepository;
-//    @Autowired
-//    private MemberRepository memberRepository;
-//    @Autowired
-//    private CarrotImageRepository carrotImageRepository;
-//
-//    @Test
-//    void save() {
-//        Optional<Member> member = memberRepository.findById(Long.valueOf(24));
-//
-//        Carrot save = Carrot.builder()
-//                .member(member.get())
-//                .carrotTitle("쵸파 미니 팬미팅 합니다")
-//                .carrotContent("말티즈계의 최고 얼짱 쵸파를 보러오세요")
-//                .carrotTag("산책")
-//                .carrot_price(0)
-//                .build();
-//        Carrot carrotDTO = carrotRepository.save(save);
-//        Assertions.assertEquals(carrotDTO.getCarrotId(), 3);
-//    }
-//
-//    @Test
-//    void delete() {
-//        Optional<Carrot> carrot = carrotRepository.findById(Long.valueOf(3));
-//        carrotRepository.delete(carrot.get());
-//
-//    }
+package com.palette.palettepetsback.carrot;
+
+import com.palette.palettepetsback.Article.articleWrite.dto.request.ArticleLikeRequestDto;
+import com.palette.palettepetsback.carrot.domain.Carrot;
+import com.palette.palettepetsback.carrot.dto.CarrotRequestDTO;
+import com.palette.palettepetsback.carrot.repository.CarrotImageRepository;
+import com.palette.palettepetsback.carrot.repository.CarrotRepository;
+import com.palette.palettepetsback.config.jwt.JWTUtil;
+import com.palette.palettepetsback.member.dto.Role;
+import com.palette.palettepetsback.member.entity.Member;
+import com.palette.palettepetsback.member.repository.MemberRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+public class CarrotTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private CarrotRepository carrotRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private CarrotImageRepository carrotImageRepository;
+
+    @Value("${jwt.secret}")
+    private String secretKey;
+    private JWTUtil jwtUtil;
+    private Map<String, Object> claims = new HashMap<>();
+    private String token;
+
+    @BeforeEach
+    void setUp() {
+        // 테스트를 위한 초기 데이터 설정
+        claims.put("memberId", 1L);
+        claims.put("email", "test@naver.com");
+        claims.put("role", Role.USER);
+        claims.put("memberNickname", "soungwon");
+
+        jwtUtil = new JWTUtil(secretKey);
+
+        token = jwtUtil.generateToken("access", claims, 60 * 60 * 1000L);
+    }
+
+
+    @Test
+    void carrotSave() throws Exception {
+        CarrotRequestDTO dto = new CarrotRequestDTO(
+                "테스트 제목", "테스트 내용", 7777, "거래"
+        );
+
+
+        MockMultipartFile file = new MockMultipartFile("files", "test.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+        MockMultipartFile[] files = new MockMultipartFile[]{file};
+        // 거래글 쓰기 테스트
+        mockMvc.perform(multipart("/carrot/post")
+                        .file(files[0])
+                        .param("carrotTitle", dto.getCarrotTitle())
+                        .param("carrotContent", dto.getCarrotContent())
+                        .param("carrotPrice", String.valueOf(dto.getCarrotPrice()))
+                        .param("carrotTag", dto.getCarrotTag())
+                        .header("Authorization", "Bearer " + token)) // JWT 토큰 추가
+                .andExpect(status().isOk()); // ok(200) 상태 코드 예상
+    }
+
+    @Test
+    void carrotDelete() throws Exception {
+        mockMvc.perform(delete("/carrot/delete/{id}", 1L)
+                .header("Authorization", "Bearer " + token)) // JWT 토큰 추가
+                .andExpect(status().isOk()); // ok(200) 상태 코드 예상
+    }
 //
 //    @Test
 //    @Transactional
@@ -53,10 +97,5 @@
 //            List<Carrot> carrots = carrotRepository.findAll();
 //            System.out.println(carrots);
 //    }
-//
-//}
-//>>>>>>> 1ad976c293e2de3641e5004610f49a04b6f0aa33
-//=======
-//>>>>>>> a58d393f07c431c9ba7422c891e1c8411a047407
-//=======
-//>>>>>>> 654d6089f9b1ba51dfc68fea53ec6f229fa1149f
+
+}

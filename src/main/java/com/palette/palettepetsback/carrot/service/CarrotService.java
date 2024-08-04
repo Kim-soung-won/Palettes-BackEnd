@@ -98,18 +98,21 @@ public class CarrotService {
         carrot.setCarrotContent(dto.getCarrotContent());
         carrot.setCarrot_price(dto.getCarrotPrice());
         carrot.setCarrotTag(dto.getCarrotTag());
-        carrot.setCarrotState(dto.getCarrotState());
 
         carrotRepository.save(carrot);
     }
 
     //글 삭제
     @Transactional
-    public Carrot delete(Long id) {
+    public boolean delete(Long id, Long memberId) {
         Carrot carrot = carrotRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not exist Carrot Data by id : [" + id + "]"));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Not exist Member Data by id : [" + memberId + "]"));
+        if (carrot.getMember()!= member) {
+            return false;
+        }
 
         carrotRepository.delete(carrot);
-        return carrot;
+        return true;
     }
 
     //파일 삭제

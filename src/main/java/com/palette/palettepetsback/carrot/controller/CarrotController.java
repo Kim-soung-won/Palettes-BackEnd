@@ -68,13 +68,19 @@ public class CarrotController {
 
     //글 & 이미지 삭제
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id,
+                          @JwtAuth AuthInfoDto authInfoDto) {
+        Long memberId = authInfoDto.getMemberId();
+
         //글 삭제
-        carrotService.delete(id);
+        boolean result = carrotService.delete(id,memberId);
+        if(!result) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("글 삭제 권한이 없습니다.");
+        }
         //이미지 삭제
         carrotService.deleteImg(id);
 
-        return true;
+        return ResponseEntity.ok().body("글 삭제 완료");
     }
 
     //회원 별 거래 리스트
