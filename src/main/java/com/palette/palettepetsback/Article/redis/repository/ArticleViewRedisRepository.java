@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface ArticleViewRedisRepository extends CrudRepository<ViewArticleRedis, Long> {
-    ViewArticleRedis findViewById(Long articleId);
+    ViewArticleRedis findViewByArticleId(Long articleId);
 }

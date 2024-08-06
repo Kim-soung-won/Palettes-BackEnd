@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 @Data
-@RedisHash(value = "ArticleLikeRedis")
+@RedisHash(value = "ArticleViewRedis")
 @Builder
 @ToString
 public class ViewArticleRedis {

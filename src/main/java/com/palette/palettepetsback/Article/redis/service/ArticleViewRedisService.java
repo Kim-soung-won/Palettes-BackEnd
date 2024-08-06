@@ -16,7 +16,7 @@ public class ArticleViewRedisService {
      * 조회수 단기 캐싱
      */
     public ViewArticleRedis updateViewerCount(Long articleId){
-        ViewArticleRedis article = articleViewRedisRepository.findViewById(articleId);
+        ViewArticleRedis article = articleViewRedisRepository.findViewByArticleId(articleId);
         if(article==null) {
             return articleViewRedisRepository.save(
                     ViewArticleRedis.builder()
@@ -26,6 +26,7 @@ public class ArticleViewRedisService {
             );
         }else {
             Long count = redisTemplate.opsForValue().increment(articleId.toString(), 1);
+            System.out.println("count = " + count);
         }
         return article;
     }

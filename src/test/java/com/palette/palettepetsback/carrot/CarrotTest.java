@@ -90,12 +90,4 @@ public class CarrotTest {
                 .header("Authorization", "Bearer " + token)) // JWT 토큰 추가
                 .andExpect(status().isOk()); // ok(200) 상태 코드 예상
     }
-//
-//    @Test
-//    @Transactional
-//    void findAllCarrot() {
-//            List<Carrot> carrots = carrotRepository.findAll();
-//            System.out.println(carrots);
-//    }
-
 }

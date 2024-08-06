@@ -57,11 +57,8 @@ public class ArticleWriteController {
         String sessionId = request.getSession().getId();
         String key = "session_id_" + sessionId;
         if (!redisTemplate.hasKey(key)) {
-            System.out.println("=======조회수 상승================");
             articleWriteService.updateCountViews(articleId);
             redisTemplate.opsForValue().set(key, sessionId, 600, TimeUnit.SECONDS);
-        } else {
-            System.out.println("=======이미 조회수를 올린 사람입니다.================");
         }
         ////단건 응답
 
