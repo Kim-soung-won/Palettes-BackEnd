@@ -9,7 +9,9 @@ import com.palette.palettepetsback.Article.articleWrite.repository.ArticleWriteR
 import com.palette.palettepetsback.Article.articleWrite.response.Response;
 import com.palette.palettepetsback.Article.articleWrite.service.ArticleWriteService;
 import com.palette.palettepetsback.Article.redis.ArticleWriteRedis;
+import com.palette.palettepetsback.Article.redis.ViewArticleRedis;
 import com.palette.palettepetsback.Article.redis.service.ArticleRedisService;
+import com.palette.palettepetsback.Article.redis.service.ArticleViewRedisService;
 import com.palette.palettepetsback.config.SingleTon.BadWordService;
 import com.palette.palettepetsback.config.SingleTon.ViewerLimit;
 import com.palette.palettepetsback.config.exceptions.BadWordException;
@@ -37,31 +39,10 @@ import java.util.concurrent.TimeUnit;
 public class ArticleWriteController {
 
     private final ArticleWriteService articleWriteService;
-    private final ArticleWriteRepository articleWriteRepository;
-    private final ArticleRepository articleRepository;
     private final ArticleRedisService articleRedisService;
     private final RedisTemplate<String, String> redisTemplate;
     private final BadWordService badWordService;
-//    @Autowired
-//    public ArticleWriteController(ArticleWriteService articleWriteService, ArticleWriteRepository articleWriteRepository) {
-//        this.articleWriteService = articleWriteService;
-//        this.articleWriteRepository = articleWriteRepository;
-//    } // 이거 대신에 @RequiredArgsConstructor 이거를 붙이면 된다
-
-    //GET
-//    @GetMapping("/Get/article")
-//    public List<Article> index(){
-//        log.info("index");
-//        return articleWriteService.index();
-//    }
-//
-    //게시글 목록 조회
-//    @GetMapping("/article/all")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Response findAllArticles(@RequestParam(defaultValue = "0") final Integer page) {
-//        return Response.success(articleWriteService.findAllArticles(page));
-//    }
-
+    private final ArticleViewRedisService articleViewRedisService;
 
     private final ViewerLimit viewerLimit;
 
@@ -87,6 +68,9 @@ public class ArticleWriteController {
         if (viewerLimit.viewLimit(request)) {
             articleWriteService.updateCountViews(articleId);
         }
+
+        ViewArticleRedis articleRedis = articleViewRedisService.updateViewerCount(articleId);
+        System.out.println(articleRedis);
 
         //단건 응답
 
@@ -167,19 +151,6 @@ public class ArticleWriteController {
     }
 
 
-    //업데이트 할때는 Article.state는 modified(수정됨)article_id,title ,content,created_at 4개가 들어가서 수정
-    //게시글 수정
-//    @PatchMapping("/Patch/{id}")
-//    public ResponseEntity<Article> update( @PathVariable Long id,
-//                                                @Valid
-//                                              @RequestBody ArticleWriteDto dto){
-//        Article updated = articleWriteService.update(id,dto); // 서비스를 통해 게시글 수정
-//        return (updated != null)?//수정되면 정상, 안되면 오류 응답
-//                ResponseEntity.status(HttpStatus.OK).body(updated):
-//                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//    }
-
-
     // 삭제할때는 Article.state는 deleted (삭제됨) article.is_deleted는 1로 수정 article_id 만 있으면 됨
     //DELETE -- 완료
     @DeleteMapping("/Delete/{articleId}")
@@ -190,25 +161,6 @@ public class ArticleWriteController {
         return ResponseEntity.status(HttpStatus.OK).body("게시글이 삭제되었습니다.");
 
     }
-
-
-    //게시글 삭제 ->
-//    @DeleteMapping("/article/{articleId}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Response deleteArticle(@PathVariable final Long articleId,
-//                                  @JwtAuth final AuthInfoDto authInfoDto){
-//        articleWriteService.deleteArticle(articleId,authInfoDto);
-//        return Response.success();
-//    }
-
-    //게시글 이미지 삭제
-//    @DeleteMapping("{id}/img")
-//    public boolean deleteArticleImg(@PathVariable ("id")Long id,@RequestBody List<Long>imgIds ){
-//        articleWriteService.deleteImgArticle(imgIds);
-//        return true;
-//    }
-
-
 }
 
 

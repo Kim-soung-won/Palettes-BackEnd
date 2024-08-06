@@ -16,7 +16,7 @@ import org.springframework.data.redis.core.index.Indexed;
 public class ReportArticleRedis {
 
     @Id
-     String reportId;
+    String reportId;
     @Indexed
     Long memberId;
     Long articleId;
