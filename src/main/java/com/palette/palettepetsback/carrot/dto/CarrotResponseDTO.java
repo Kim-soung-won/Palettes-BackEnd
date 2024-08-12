@@ -33,8 +33,8 @@ public class CarrotResponseDTO {
         this.carrotId = responseDTO.getCarrotId();
         this.carrotTitle = responseDTO.getCarrotTitle();
         this.carrotContent = responseDTO.getCarrotContent();
-        this.carrotPrice = responseDTO.getCarrot_price();
-        this.carrotCreatedAt = responseDTO.getCarrot_createdAt();
+        this.carrotPrice = responseDTO.getCarrotPrice();
+        this.carrotCreatedAt = responseDTO.getCarrotCreatedAt();
         this.memberId =responseDTO.getMember().getMemberId();
         this.memberNickname = responseDTO.getMember().getMemberName();
         this.carrotTag = responseDTO.getCarrotTag();

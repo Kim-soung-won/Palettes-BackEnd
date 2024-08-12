@@ -29,9 +29,8 @@ public class FeedController {
 
         // 글자와 멤버 아이디로 피드 저장
         Feed feed = feedService.saveFeed(feedRequest.getText(), memberId, files);
-
+        
         return ResponseEntity.ok("피드 작성 완료.");
-
     }
 
     @GetMapping("/feed/{nickname}")
@@ -59,7 +58,6 @@ public class FeedController {
     @GetMapping("/feed/friend")
     public ResponseEntity<?> getFriendFeed (@JwtAuth AuthInfoDto authInfoDto){
         String nickname=authInfoDto.getMemberNickname();
-        System.out.println("authInfoDto = " + nickname);
         return ResponseEntity.ok(nickname);
     }
 }

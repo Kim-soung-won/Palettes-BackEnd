@@ -26,7 +26,6 @@ public class ArticleViewRedisService {
             );
         }else {
             Long count = redisTemplate.opsForValue().increment(articleId.toString(), 1);
-            System.out.println("count = " + count);
         }
         return article;
     }

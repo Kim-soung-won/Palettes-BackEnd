@@ -2,13 +2,19 @@ package com.palette.palettepetsback.carrot.domain;
 
 import com.palette.palettepetsback.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity @Getter
 @Table(name = "carrot_like")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CarrotLike {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +31,4 @@ public class CarrotLike {
 
     @CreationTimestamp
     private LocalDateTime time;
-
-    public void save(Member member, Carrot carrot) {
-        this.carrotId=carrot;
-        this.member=member;
-    }
 }

@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 @Builder
@@ -28,14 +26,14 @@ public class Carrot {
     private String carrotContent;
 
     @Column(name = "carrot_price")
-    private Integer carrot_price;
+    private Integer carrotPrice;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Column(name = "carrot_created_at")
-    private LocalDateTime carrot_createdAt;
+    private LocalDateTime carrotCreatedAt;
 
     @Column(name = "carrot_tag")
     private String carrotTag;
@@ -57,7 +55,7 @@ public class Carrot {
     //저장되기 전 실행 메서드(default 값 지정)
     @PrePersist
     public void prePersist() {
-        this.carrot_createdAt = LocalDateTime.now();
+        this.carrotCreatedAt = LocalDateTime.now();
         this.carrotLike = 0;
         this.carrotView = 0;
     }
@@ -65,7 +63,7 @@ public class Carrot {
     //수정 되기 전 실행 메서드
     @PreUpdate
     public void preUpdate() {
-        this.carrot_createdAt = LocalDateTime.now();
+        this.carrotCreatedAt = LocalDateTime.now();
     }
 
     public void like(int sum){
