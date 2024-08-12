@@ -21,7 +21,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class FeedService {
     private final NCPObjectStorageService objectStorageService;
     private final FeedRepository feedRepository;
@@ -33,19 +32,28 @@ public class FeedService {
         return objectStorageService.uploadFile(Singleton.S3_BUCKET_NAME, dirPath, file);
     }
 
-    public Feed saveFeed(String feedContent, Long memberId) {
+    @Transactional
+    public Feed saveFeed(String feedContent, Long memberId, MultipartFile[] files) {
         Optional<Member> member = memberRepository.findById(memberId);
         if (member.isPresent()) {
             Feed feed = Feed.builder()
                     .feedContent(feedContent)
                     .memberId(member.get())
                     .build();
+
+            // 파일 업로드 및 FeedImg 저장
+            for (MultipartFile file : files) {
+                String imgUrl = fileUpload(file, "feed/img");
+                saveFeedImg(imgUrl, feed);
+            }
+
             return feedRepository.save(feed);
         } else {
             throw new IllegalArgumentException("Member not found with id: " + memberId);
         }
     }
 
+    @Transactional
     public FeedImg saveFeedImg(String imgUrl, Feed feed) {
         FeedImg feedImg = FeedImg.builder()
                 .feedImg(imgUrl)
@@ -57,6 +65,7 @@ public class FeedService {
 
 
     //피드리스트
+    @Transactional(readOnly = true)
     public List<FeedListResponse> getFeedList(String nickname) {
         Optional<Member> member = memberRepository.findByMemberNickname(nickname);
         if (member.isPresent()) {
@@ -78,6 +87,7 @@ public class FeedService {
     }
 
     //피드상세
+    @Transactional(readOnly = true)
     public FeedResponse getFeedDetail(Long feedId , Long memberId) {
         Feed feed = feedRepository.findByFeedId(feedId);
 

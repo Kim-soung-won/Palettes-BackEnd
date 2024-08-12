@@ -27,15 +27,9 @@ public class FeedController {
 
         Long memberId=authInfoDto.getMemberId();
 
-        int i = 0;
         // 글자와 멤버 아이디로 피드 저장
-        Feed feed = feedService.saveFeed(feedRequest.getText(), memberId);
+        Feed feed = feedService.saveFeed(feedRequest.getText(), memberId, files);
 
-        // 파일 업로드 및 FeedImg 저장
-        for (MultipartFile file : files) {
-            String imgUrl = feedService.fileUpload(file, "feed/img");
-            feedService.saveFeedImg(imgUrl, feed);
-        }
         return ResponseEntity.ok("피드 작성 완료.");
 
     }
