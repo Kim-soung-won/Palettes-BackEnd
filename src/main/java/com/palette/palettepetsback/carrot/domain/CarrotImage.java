@@ -21,9 +21,4 @@ public class CarrotImage {
 
     @Column(name = "carrort_image_url")
     private String carrotImageUrl;
-
-    public void saveImg(String carrotImageUrl, Carrot carrotId) {
-        this.carrotImageUrl = carrotImageUrl;
-        this.carrotId = carrotId;
-    }
 }
