@@ -1,11 +1,17 @@
 package com.palette.palettepetsback.feed.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "feed_img")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FeedImg {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +24,4 @@ public class FeedImg {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;
-
-    public void saveImg(String feedImg,Feed feed) {
-        this.feedImg = feedImg;
-        this.feed = feed;
-    }
 }

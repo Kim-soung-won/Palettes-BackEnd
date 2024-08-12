@@ -36,8 +36,10 @@ public class FeedService {
     public Feed saveFeed(String feedContent, Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         if (member.isPresent()) {
-            Feed feed = new Feed();
-            feed.saveFeed(feedContent, member.get());
+            Feed feed = Feed.builder()
+                    .feedContent(feedContent)
+                    .memberId(member.get())
+                    .build();
             return feedRepository.save(feed);
         } else {
             throw new IllegalArgumentException("Member not found with id: " + memberId);
@@ -45,8 +47,10 @@ public class FeedService {
     }
 
     public FeedImg saveFeedImg(String imgUrl, Feed feed) {
-        FeedImg feedImg = new FeedImg();
-        feedImg.saveImg(imgUrl,feed);
+        FeedImg feedImg = FeedImg.builder()
+                .feedImg(imgUrl)
+                .feed(feed)
+                .build();
         return feedImgRepository.save(feedImg);
     }
 

@@ -2,7 +2,10 @@ package com.palette.palettepetsback.feed.entity;
 
 import com.palette.palettepetsback.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -12,6 +15,9 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "feed")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Feed {
 
     @Id
@@ -32,8 +38,4 @@ public class Feed {
     @CreationTimestamp
     private LocalDateTime time;
 
-    public void saveFeed(String feedContent, Member memberId) {
-        this.feedContent = feedContent;
-        this.memberId=memberId;
-    }
 }
