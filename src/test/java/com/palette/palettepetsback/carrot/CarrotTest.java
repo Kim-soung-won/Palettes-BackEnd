@@ -1,15 +1,11 @@
 package com.palette.palettepetsback.carrot;
 
-import com.palette.palettepetsback.Article.articleWrite.dto.request.ArticleLikeRequestDto;
-import com.palette.palettepetsback.carrot.domain.Carrot;
 import com.palette.palettepetsback.carrot.dto.CarrotRequestDTO;
 import com.palette.palettepetsback.carrot.repository.CarrotImageRepository;
 import com.palette.palettepetsback.carrot.repository.CarrotRepository;
 import com.palette.palettepetsback.config.jwt.JWTUtil;
 import com.palette.palettepetsback.member.dto.Role;
-import com.palette.palettepetsback.member.entity.Member;
 import com.palette.palettepetsback.member.repository.MemberRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,12 +30,6 @@ public class CarrotTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private CarrotRepository carrotRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private CarrotImageRepository carrotImageRepository;
 
     @Value("${jwt.secret}")
     private String secretKey;

@@ -80,8 +80,10 @@ public class CarrotService {
     //이미지 등록
     @Transactional
     public CarrotImage saveImg(String carrotImageUrl, Carrot carrot) {
-        CarrotImage carrotImage = new CarrotImage();
-        carrotImage.saveImg(carrotImageUrl, carrot);
+        CarrotImage carrotImage = CarrotImage.builder()
+                .carrotId(carrot)
+                .carrotImageUrl(carrotImageUrl)
+                .build();
         return carrotImageRepository.save(carrotImage);
     }
 
