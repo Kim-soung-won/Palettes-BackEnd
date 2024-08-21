@@ -40,39 +40,9 @@ public class ArticleWriteController {
 
     private final ArticleWriteService articleWriteService;
     private final ArticleRedisService articleRedisService;
-    private final RedisTemplate<String, String> redisTemplate;
     private final BadWordService badWordService;
-    private final ArticleViewRedisService articleViewRedisService;
-
-    private final ViewerLimit viewerLimit;
 
 
-    //게시글 단건 조회
-    @GetMapping("/articles/{articleId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Response findArticle(@PathVariable final Long articleId,
-                                HttpServletRequest request) {
-        //조회수 증가 처리율 제한 추가
-
-        String sessionId = request.getSession().getId();
-        String key = "session_id_" + sessionId;
-        if (!redisTemplate.hasKey(key)) {
-            articleWriteService.updateCountViews(articleId);
-            redisTemplate.opsForValue().set(key, sessionId, 600, TimeUnit.SECONDS);
-        }
-        ////단건 응답
-
-        if (viewerLimit.viewLimit(request)) {
-            articleWriteService.updateCountViews(articleId);
-        }
-
-        ViewArticleRedis articleRedis = articleViewRedisService.updateViewerCount(articleId);
-        System.out.println(articleRedis);
-
-        //단건 응답
-
-        return Response.success(articleWriteService.findArticle(articleId));
-    }
 
 
     //게시글 등록 --- 완료
